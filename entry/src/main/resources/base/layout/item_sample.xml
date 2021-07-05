@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectionalLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:id="$+id:ability_item_sample"
+    ohos:height="match_content"
+    ohos:width="match_parent"
+    ohos:orientation="vertical">
+
+    <StackLayout
+        ohos:id="$+id:stack"
+        ohos:height="match_parent"
+        ohos:width="match_parent">
+
+        <Component
+            ohos:id="$+id:display_animation"
+            ohos:height="600"
+            ohos:width="600"
+            ohos:focusable_in_touch="true"
+            ohos:left_margin="250"/>
+
+
+    </StackLayout>
+
+</DirectionalLayout>
