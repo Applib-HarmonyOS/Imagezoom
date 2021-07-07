@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DependentLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:id="$+id:ability_basic_zoom"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:orientation="vertical">
+
+    <StackLayout
+        ohos:id="$+id:s1"
+        ohos:height="match_content"
+        ohos:width="match_content"
+        ohos:center_in_parent="true">
+
+        <Image
+            ohos:id="$+id:img"
+            ohos:height="450px"
+            ohos:width="850px"
+            ohos:image_src="$media:bigimage"
+            ohos:scale_mode="zoom_center"
+            ohos:focusable_in_touch="true"
+            />
+
+    </StackLayout>
+
+</DependentLayout>

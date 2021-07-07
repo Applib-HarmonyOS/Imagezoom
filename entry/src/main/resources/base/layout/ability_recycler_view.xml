@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectionalLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:id="$+id:ability_recycler_view"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:orientation="vertical">
+
+    <ListContainer
+        ohos:id="$+id:list"
+        ohos:height="match_parent"
+        ohos:width="match_parent"
+        ohos:rebound_effect="true"/>
+
+</DirectionalLayout>
