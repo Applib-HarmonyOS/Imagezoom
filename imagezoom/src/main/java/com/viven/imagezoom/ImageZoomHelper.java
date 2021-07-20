@@ -33,7 +33,6 @@ public class ImageZoomHelper {
     private Component zoomableView = null;
     private ComponentContainer parentOfZoomableView;
     private ComponentContainer.LayoutConfig zoomableViewLayoutParam;
-    private StackLayout.LayoutConfig zoomableViewFrameLayoutParam;
     private CommonDialog dialog;
     private int viewIndex;
     private Component darkView;
@@ -115,36 +114,7 @@ public class ImageZoomHelper {
                 originalMargins = view.getLocationOnScreen();
                 zoomableView = view;
 
-                StackLayout frameLayout = new StackLayout(view.getContext());
-                frameLayout.setLayoutConfig(new StackLayout.LayoutConfig(getScreenWidth(view.getContext()),
-                        getScreenHeight(view.getContext())));
-
-                darkView = new Component(view.getContext());
-
-                frameLayout.addComponent(darkView, new StackLayout.LayoutConfig(
-                        ComponentContainer.LayoutConfig.MATCH_PARENT,
-                        ComponentContainer.LayoutConfig.MATCH_PARENT));
-
-                dialog = new CommonDialog(view.getContext());
-                dialog = dialog.setContentCustomComponent(frameLayout);
-                dialog.show();
-                dialog.siteKeyboardCallback((interfaceDialog, keyEvent) -> {
-                    if (keyEvent.isKeyDown()) {
-                        restoreView();
-                    }
-                    return false;
-                });
-
-                parentOfZoomableView = (ComponentContainer) zoomableView.getComponentParent();
-                viewIndex = parentOfZoomableView.getChildIndex(zoomableView);
-                zoomableViewLayoutParam = zoomableView.getLayoutConfig();
-
-                zoomableViewFrameLayoutParam = new StackLayout.LayoutConfig(view.getWidth(), view.getHeight());
-                zoomableViewFrameLayoutParam.setMarginLeft(originalMargins[0]);
-                zoomableViewFrameLayoutParam.setMarginTop(originalMargins[1]);
-
-                parentOfZoomableView.removeComponent(zoomableView);
-                frameLayout.addComponent(zoomableView, zoomableViewFrameLayoutParam);
+                moveView(view);
 
                 sendZoomEventToListeners(zoomableView, true);
 
@@ -160,11 +130,11 @@ public class ImageZoomHelper {
                 final int topMarginEnd = (int) (originalMargins[1] - (pctIncrease / 2) * originalHeight);
                 final float alphaEnd = 1f;
 
-                final AnimatorValue valueAnimator = new AnimatorValue();
-                valueAnimator.setDuration(ZOOM_ANIMATION_DURATION);
-                valueAnimator.setLoopedCount(0);
+                final AnimatorValue valueAnimatorZoomIn = new AnimatorValue();
+                valueAnimatorZoomIn.setDuration(ZOOM_ANIMATION_DURATION);
+                valueAnimatorZoomIn.setLoopedCount(0);
 
-                valueAnimator.setValueUpdateListener((animatorValue, v) -> {
+                valueAnimatorZoomIn.setValueUpdateListener((animatorValue, v) -> {
                     if (v < END_FRACTION) {
                         updateZoomableView(v, widthStart, heightStart,
                                 widthEnd, heightEnd);
@@ -180,10 +150,10 @@ public class ImageZoomHelper {
                                 (int) ((leftMarginEnd - leftMarginStart) * END_FRACTION) + leftMarginStart,
                                 (int) ((topMarginEnd - topMarginStart) * END_FRACTION) + topMarginStart
                         );
-                        valueAnimator.setValueUpdateListener(null);
+                        valueAnimatorZoomIn.setValueUpdateListener(null);
                     }
                 });
-                valueAnimator.start();
+                valueAnimatorZoomIn.start();
             }
         } else {
             restoreView();
@@ -209,11 +179,11 @@ public class ImageZoomHelper {
             final int topMarginEnd = originalMargins[1];
             final float alphaEnd = 0f;
 
-            final AnimatorValue valueAnimator = new AnimatorValue();
-            valueAnimator.setDuration(ZOOM_ANIMATION_DURATION);
-            valueAnimator.setLoopedCount(0);
+            final AnimatorValue valueAnimatorZoomOut = new AnimatorValue();
+            valueAnimatorZoomOut.setDuration(ZOOM_ANIMATION_DURATION);
+            valueAnimatorZoomOut.setLoopedCount(0);
 
-            valueAnimator.setValueUpdateListener((animatorValue, v) -> {
+            valueAnimatorZoomOut.setValueUpdateListener((animatorValue, v) -> {
                 if (v < END_FRACTION) {
                     updateZoomableView(v, widthStart, heightStart,
                             widthEnd, heightEnd);
@@ -230,10 +200,10 @@ public class ImageZoomHelper {
                             (int) ((topMarginEnd - topMarginStart) * END_FRACTION) + topMarginStart
                     );
                     dismissDialogAndViews();
-                    valueAnimator.setValueUpdateListener(null);
+                    valueAnimatorZoomOut.setValueUpdateListener(null);
                 }
             });
-            valueAnimator.start();
+            valueAnimatorZoomOut.start();
         }
     }
 
@@ -255,45 +225,7 @@ public class ImageZoomHelper {
                 // get view's original location relative to the window
                 originalMargins = view.getLocationOnScreen();
 
-                // this FrameLayout will be the zoomableView's temporary parent
-                StackLayout frameLayout = new StackLayout(view.getContext());
-                frameLayout.setLayoutConfig(new StackLayout.LayoutConfig(getScreenWidth(view.getContext()),
-                        getScreenHeight(view.getContext())));
-
-                // this view is to gradually darken the backdrop as user zooms
-                // (here in this case it is a dummy view)
-                darkView = new Component(view.getContext());
-
-                // adding darkening backdrop to the frameLayout
-                frameLayout.addComponent(darkView, new StackLayout.LayoutConfig(
-                        ComponentContainer.LayoutConfig.MATCH_PARENT,
-                        ComponentContainer.LayoutConfig.MATCH_PARENT));
-
-                // the Dialog that will hold the FrameLayout
-                dialog = new CommonDialog(view.getContext());
-                dialog = dialog.setContentCustomComponent(frameLayout);
-                dialog.show();
-                dialog.siteKeyboardCallback((interfaceDialog, keyEvent) -> {
-                    if (keyEvent.isKeyDown()) {
-                        restoreView();
-                    }
-                    return false;
-                });
-
-                // get the parent of the zoomable view and get it's index and layout param
-                parentOfZoomableView = (ComponentContainer) zoomableView.getComponentParent();
-                viewIndex = parentOfZoomableView.getChildIndex(zoomableView);
-                zoomableViewLayoutParam = zoomableView.getLayoutConfig();
-
-                // this is the new layout param for the zoomableView
-                zoomableViewFrameLayoutParam = new StackLayout.LayoutConfig(view.getWidth(), view.getHeight());
-                zoomableViewFrameLayoutParam.setMarginLeft(originalMargins[0]);
-                zoomableViewFrameLayoutParam.setMarginTop(originalMargins[1]);
-
-                // zoomableView has to be removed from parent view before being added to it's
-                // new parent
-                parentOfZoomableView.removeComponent(zoomableView);
-                frameLayout.addComponent(zoomableView, zoomableViewFrameLayoutParam);
+                moveView(view);
 
                 // Pointer variables to store the original touch positions
                 MmiPoint pointerCoords1 = new MmiPoint(ev.getPointerPosition(0).getX(),
@@ -344,6 +276,50 @@ public class ImageZoomHelper {
             return true;
         }
         return false;
+    }
+
+    private void moveView(Component view) {
+
+        // this FrameLayout will be the zoomableView's temporary parent
+        StackLayout frameLayout = new StackLayout(view.getContext());
+        frameLayout.setLayoutConfig(new StackLayout.LayoutConfig(getScreenWidth(view.getContext()),
+                getScreenHeight(view.getContext())));
+
+        // this view is to gradually darken the backdrop as user zooms
+        // (here in this case it is a dummy view)
+        darkView = new Component(view.getContext());
+
+        // adding darkening backdrop to the frameLayout
+        frameLayout.addComponent(darkView, new StackLayout.LayoutConfig(
+                ComponentContainer.LayoutConfig.MATCH_PARENT,
+                ComponentContainer.LayoutConfig.MATCH_PARENT));
+
+        // the Dialog that will hold the FrameLayout
+        dialog = new CommonDialog(view.getContext());
+        dialog = dialog.setContentCustomComponent(frameLayout);
+        dialog.show();
+        dialog.siteKeyboardCallback((interfaceDialog, keyEvent) -> {
+            if (keyEvent.isKeyDown()) {
+                restoreView();
+            }
+            return false;
+        });
+
+        // get the parent of the zoomable view and get it's index and layout param
+        parentOfZoomableView = (ComponentContainer) zoomableView.getComponentParent();
+        viewIndex = parentOfZoomableView.getChildIndex(zoomableView);
+        zoomableViewLayoutParam = zoomableView.getLayoutConfig();
+
+        StackLayout.LayoutConfig zoomableViewFrameLayoutParam;
+        // this is the new layout param for the zoomableView
+        zoomableViewFrameLayoutParam = new StackLayout.LayoutConfig(view.getWidth(), view.getHeight());
+        zoomableViewFrameLayoutParam.setMarginLeft(originalMargins[0]);
+        zoomableViewFrameLayoutParam.setMarginTop(originalMargins[1]);
+
+        // zoomableView has to be removed from parent view before being added to it's
+        // new parent
+        parentOfZoomableView.removeComponent(zoomableView);
+        frameLayout.addComponent(zoomableView, zoomableViewFrameLayoutParam);
     }
 
     /**
