@@ -6,22 +6,31 @@ It was created to mimick the Instagram Zoom feature.
 
 ![View Preview](https://github.com/okaybroda/ImageZoom/blob/master/preview.gif?raw=true)
 
-## Installation
-Add Jitpack
-```gradle
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
+### Dependency
+1. For using ImageZoom module in sample app, include the source code and add the below dependencies in entry/build.gradle to generate hap/support.har.
 ```
+	dependencies {
+		implementation project(':imagezoom')
+        	implementation fileTree(dir: 'libs', include: ['*.har'])
+        	testCompile 'junit:junit:4.12'
+	}
+```
+2. For using ImageZoom in separate application using har file, add the har file in the entry/libs folder and add the dependencies in entry/build.gradle file.
+```
+	dependencies {
+		implementation fileTree(dir: 'libs', include: ['*.har'])
+		testCompile 'junit:junit:4.12'
+	}
 
-Then add ImageZoom library
-```gradle
-dependencies {
-  compile 'com.github.okaybroda:ImageZoom:1.1.0'
-}
 ```
+3. For using ImageZoom from a remote repository in separate application, add the below dependencies in entry/build.gradle file.
+```
+	dependencies {
+		implementation 'dev.applibgroup:imagezoom:1.0.0'
+		testCompile 'junit:junit:4.12'
+	}
+```
+    
 ## Usage
 Create an ImageZoomHelper instance in the OnCreate function of your Activity
 ```java
