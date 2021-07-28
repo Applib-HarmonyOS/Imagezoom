@@ -1,6 +1,4 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=applibgroup_Imagezoom&metric=alert_status)](https://sonarcloud.io/dashboard?id=applibgroup_Imagezoom)
-
-# ImageZoom
+# ImageZoom [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=applibgroup_Imagezoom&metric=alert_status)](https://sonarcloud.io/dashboard?id=applibgroup_Imagezoom) [![Build](https://github.com/applibgroup/Imagezoom/actions/workflows/main.yml/badge.svg)](https://github.com/applibgroup/Imagezoom/actions/workflows/main.yml)
 An Android library that makes any view to be zoomable.
 It was created to mimick the Instagram Zoom feature.
 
