@@ -64,6 +64,7 @@ To enable/disable zoom for certain Views (e.g. Recycler View refreshing)
 img.setTouchEventListener(new Component.TouchEventListener() {
 	@Override
 	public boolean onTouchEvent(Component component, TouchEvent touchEvent) {
+		// your code...
 		return onTouchEvent(component, touchEvent);
 	}
 });
