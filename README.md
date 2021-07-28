@@ -32,63 +32,68 @@ It was created to mimick the Instagram Zoom feature.
 ```
     
 ## Usage
-Create an ImageZoomHelper instance in the OnCreate function of your Activity
+Create an ImageZoomHelper instance in the OnCreate function of your AbilitySlice
 ```java
 ImageZoomHelper imageZoomHelper;
 
 @Override
-protected void onCreate(Bundle savedInstanceState) {
-    // ... your code ...
-    imageZoomHelper = new ImageZoomHelper(this);
+public void onStart(Intent intent) {
+	// ... your code ...
+	imageZoomHelper = new ImageZoomHelper(this.getAbility());
 }
 ```
-Override dispatchTouchEvent in your Activity and pass all touch events to the ImageZoomHelper instance:
+Override onTouchEvent of the component to be zoomed and pass all of its touch events to the ImageZoomHelper instance, thereby enabling zoom:
 ```java
-@Override
-public boolean dispatchTouchEvent(MotionEvent ev) {
-    return imageZoomHelper.onDispatchTouchEvent(ev) || super.dispatchTouchEvent(ev);
-}
-```
-Set the R.id.zoomable tag to the Views that you would like to be zoomable.
-```java
-ImageZoomHelper.setViewZoomable(findViewById(R.id.imgLogo));
+img.setTouchEventListener(new Component.TouchEventListener() {
+	@Override
+	public boolean onTouchEvent(Component component, TouchEvent touchEvent) {
+		// Request Focus here so that the latest component being touched is having the focus
+                img.requestFocus();
+		return imageZoomHelper.onDispatchTouchEvent((touchEvent)) || onTouchEvent(component, touchEvent);
+	}
+});
 ```
 To enable/disable zoom for certain Views (e.g. Recycler View refreshing)
+
+**NOTE:** Tags have not been implemented. But you can do any of the following according to usecase.
+
 ```java
-ImageZoomHelper.setZoom(recyclerView, false)
+// 1. Override setTouchEventListener according to your requirement if you want to disable zoom.
+img.setTouchEventListener(new Component.TouchEventListener() {
+	@Override
+	public boolean onTouchEvent(Component component, TouchEvent touchEvent) {
+		return onTouchEvent(component, touchEvent);
+	}
+});
+
+// 2. Removing that particular component out of focus.
+img.setTouchFocusable(false);
 ```
 ### Advanced Usage
-For a smoother zoom transition, set the layout to be fullscreen. This only works on API 16 and above.
-
-Place this code in the OnCreate function of your Activity. Preferably before the setContentView line.
+For a smoother zoom transition, set the layout to be fullscreen.
+### ListContainer
+Override the getComponent method in SampleItemProvider class.
 ```java
-if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-    View decorView = getWindow().getDecorView();
-    // Hide the status bar.
-    int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-    decorView.setSystemUiVisibility(uiOptions);
+@Override
+public Component getComponent(int position, Component convertComponent, ComponentContainer componentContainer) {
+	final Component cpt;
+	if (convertComponent == null) {
+		cpt = LayoutScatter.getInstance(slice).parse(ResourceTable.Layout_item_sample, null, false);
+	} else {
+		cpt = convertComponent;
+	}
+	
+	Component comp = cpt.findComponentById(ResourceTable.Id_comp);
+	// Code for any kind of animation (if required).
+
+	comp.setTouchEventListener(new Component.TouchEventListener() {
+		@Override
+		public boolean onTouchEvent(Component component, TouchEvent touchEvent) {
+			comp.requestFocus();
+			return imageZoomHelper.onDispatchTouchEvent((touchEvent)) || onTouchEvent(component, touchEvent);
+		}
+	});
+
+	return cpt;
 }
-```
-
-The above code makes your Activity layout go behind the status bar which brings the status bar on top of the layout. To fix that, put this line in your root layout XML.
-```xml
-android:fitsSystemWindows="true"
-```
-## Known Issues
-### RecyclerView
-When using RecyclerView and setting it's child to be zoomable, RecyclerView crashes.
-```java
-ImageView imageView = new ImageView(RecyclerViewActivity.this);
-imageView.setImageResource(R.mipmap.ic_launcher);
-ImageZoomHelper.setViewZoomable(imageView);
-return new RecyclerView.ViewHolder(frameLayout) {};
-```
-
-Workaround is to wrap the zoomable View with a parent ViewGroup.
-```java
-// Wrap ImageView with FrameLayout to avoid RecyclerView issue
-FrameLayout frameLayout = new FrameLayout(parent.getContext());
-frameLayout.addView(imageView);
-return new RecyclerView.ViewHolder(frameLayout) {};
 ```
