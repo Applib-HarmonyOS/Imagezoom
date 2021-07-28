@@ -30,7 +30,11 @@ It was created to mimick the Instagram Zoom feature.
 		testCompile 'junit:junit:4.12'
 	}
 ```
-    
+## Features
+* Double Tap to zoom or Pinch to zoom.
+* Component can be dragged using one or two fingers.
+* Double Tap the zoomed component to restore original component.
+
 ## Usage
 Create an ImageZoomHelper instance in the OnCreate function of your AbilitySlice
 ```java
