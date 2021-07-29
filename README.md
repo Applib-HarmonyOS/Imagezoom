@@ -28,6 +28,8 @@ It was created to mimick the Instagram Zoom feature.
 		testCompile 'junit:junit:4.12'
 	}
 ```
+## Source
+Inspired from the android library [ImageZoom](https://github.com/okaybroda/ImageZoom)
 ## Features
 * Double Tap to zoom or Pinch to zoom.
 * Component can be dragged using one or two fingers.
