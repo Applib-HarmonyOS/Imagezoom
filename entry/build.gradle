@@ -18,7 +18,7 @@ ohos {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.har'])
-    implementation project(path: ':imagezoom')
+    implementation 'dev.applibgroup:imagezoom:1.0.0'
     testImplementation 'junit:junit:4.13'
     ohosTestImplementation 'com.huawei.ohos.testkit:runner:1.0.0.100'
 }
