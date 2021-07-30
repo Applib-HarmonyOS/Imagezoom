@@ -2,7 +2,7 @@
 A library that makes any view to be zoomable.
 It was created to mimick the Instagram Zoom feature.
 
-![View Preview](https://github.com/okaybroda/ImageZoom/blob/master/preview.gif?raw=true)
+![View Preview](https://github.com/KomalKalyan/Imagezoom/blob/master/Demo.gif?raw=true)
 
 ### Dependency
 1. For using ImageZoom module in sample app, include the source code and add the below dependencies in entry/build.gradle to generate hap/support.har.
@@ -34,6 +34,7 @@ Inspired from the android library [ImageZoom](https://github.com/okaybroda/Image
 * Double Tap to zoom or Pinch to zoom.
 * Component can be dragged using one or two fingers.
 * Double Tap the zoomed component to restore original component.
+* Zooming animations is also possible.
 
 ## Usage
 Create an ImageZoomHelper instance in the OnCreate function of your AbilitySlice
