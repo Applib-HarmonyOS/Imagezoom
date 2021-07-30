@@ -16,9 +16,9 @@
 
 package com.viven.imagezoom.sample.slice;
 
-import com.viven.imagezoom.sample.ResourceTable;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
+import com.viven.imagezoom.sample.ResourceTable;
 
 /**
  * Ability Slice to test available zooming features.

@@ -1,11 +1,5 @@
 package com.viven.imagezoom;
 
-import java.lang.ref.WeakReference;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import ohos.aafwk.ability.Ability;
 import ohos.agp.animation.AnimatorValue;
 import ohos.agp.components.Component;
@@ -18,6 +12,12 @@ import ohos.agp.window.service.DisplayManager;
 import ohos.app.Context;
 import ohos.multimodalinput.event.MmiPoint;
 import ohos.multimodalinput.event.TouchEvent;
+import java.lang.ref.WeakReference;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by viventhraarao on 25/11/2016.

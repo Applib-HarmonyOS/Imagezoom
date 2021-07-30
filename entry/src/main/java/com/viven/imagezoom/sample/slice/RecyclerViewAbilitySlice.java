@@ -16,15 +16,15 @@
 
 package com.viven.imagezoom.sample.slice;
 
+import ohos.aafwk.ability.AbilitySlice;
+import ohos.aafwk.content.Intent;
+import ohos.agp.components.Component;
+import ohos.agp.components.ListContainer;
 import com.viven.imagezoom.ImageZoomHelper;
 import com.viven.imagezoom.sample.ResourceTable;
 import com.viven.imagezoom.sample.SampleItemProvider;
 import java.util.ArrayList;
 import java.util.List;
-import ohos.aafwk.ability.AbilitySlice;
-import ohos.aafwk.content.Intent;
-import ohos.agp.components.Component;
-import ohos.agp.components.ListContainer;
 
 /**
  * Ability Slice to test zooming feature in a list container.

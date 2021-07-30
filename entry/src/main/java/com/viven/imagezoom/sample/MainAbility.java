@@ -16,9 +16,9 @@
 
 package com.viven.imagezoom.sample;
 
-import com.viven.imagezoom.sample.slice.MainAbilitySlice;
 import ohos.aafwk.ability.Ability;
 import ohos.aafwk.content.Intent;
+import com.viven.imagezoom.sample.slice.MainAbilitySlice;
 
 /**
  * Ability to test ImageZoomHelper class.
