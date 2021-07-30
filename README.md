@@ -2,7 +2,7 @@
 A library that makes any view to be zoomable.
 It was created to mimick the Instagram Zoom feature.
 
-![View Preview](https://github.com/okaybroda/ImageZoom/blob/master/preview.gif?raw=true)
+![View Preview](https://github.com/okaybroda/ImageZoom/blob/master/Demo.gif?raw=true)
 
 ### Dependency
 1. For using ImageZoom module in sample app, include the source code and add the below dependencies in entry/build.gradle to generate hap/support.har.
