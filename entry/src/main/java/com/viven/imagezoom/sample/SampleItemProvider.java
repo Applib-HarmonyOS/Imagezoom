@@ -16,8 +16,6 @@
 
 package com.viven.imagezoom.sample;
 
-import com.viven.imagezoom.ImageZoomHelper;
-import java.util.List;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.agp.components.BaseItemProvider;
 import ohos.agp.components.Component;
@@ -25,6 +23,8 @@ import ohos.agp.components.ComponentContainer;
 import ohos.agp.components.LayoutScatter;
 import ohos.agp.components.element.FrameAnimationElement;
 import ohos.multimodalinput.event.TouchEvent;
+import com.viven.imagezoom.ImageZoomHelper;
+import java.util.List;
 
 /**
  * Item Provider to put items into the list container.
